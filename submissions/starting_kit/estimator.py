@@ -6,7 +6,7 @@ Created on Wed Nov 30 02:11:17 2022
 @author: edouard.duchesnay@cea.fr
 """
 
-import numpy as np
+# import numpy as np
 
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
