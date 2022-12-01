@@ -60,7 +60,7 @@ def _read_data(path, dataset, datatype=['rois', 'vbm']):
 
     x_arr_l = []
     # Read ROIs
-    if'rois' in datatype:
+    if 'rois' in datatype:
         rois = pd.read_csv(os.path.join(
             path, 'data', "%s_rois.csv" % dataset))
         x_rois_arr = rois.loc[:, 'l3thVen_GM_Vol':]
@@ -68,7 +68,7 @@ def _read_data(path, dataset, datatype=['rois', 'vbm']):
         x_arr_l.append(x_rois_arr)
 
     # Read 3d images and mask
-    if'vbm' in datatype:
+    if 'vbm' in datatype:
         imgs_arr_zip = np.load(os.path.join(path, 'data',
                                             "%s_vbm.npz" % dataset))
         x_img_arr = imgs_arr_zip['imgs_arr'].squeeze()
