@@ -6,4 +6,7 @@ nilearn
 matplotlib
 seaborn
 jupyter
+statsmodels
+
+ramp-workflow
 

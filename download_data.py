@@ -7,13 +7,13 @@ Created on Thu Nov 29 15:08:21 2022
 """
 import os
 import os.path
-import numpy as np
-import pandas as pd
+# import numpy as np
+# import pandas as pd
 import urllib.request
-import click
+# import click
 
-from sklearn.model_selection import train_test_split
-from shutil import copyfile, make_archive, unpack_archive, move
+# from sklearn.model_selection import train_test_split
+from shutil import unpack_archive  # , copyfile, make_archive, move
 
 try:
     PATH_DATA = os.path.join(
@@ -24,7 +24,8 @@ except NameError:
 
 os.makedirs(PATH_DATA, exist_ok=True)
 
-URL_DATA = 'ftp://ftp.cea.fr/pub/unati/people/educhesnay/data/brain_anatomy_schizophrenia_data/sz_public_202211.zip' # PUBLIC DATASET
+URL_DATA = 'ftp://ftp.cea.fr/pub/unati/people/educhesnay/data/\
+brain_anatomy_schizophrenia_data/sz_public_202211.zip'  # PUBLIC DATASET
 
 
 def fetch_data(urls, dst, verbose=1):
