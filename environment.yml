@@ -1,4 +1,4 @@
-name: brain_anatomy_schizophrenia
+name: brain-anatomy-schizophrenia
 channels:
   - conda-forge
 dependencies:
@@ -10,5 +10,7 @@ dependencies:
   - scikit-learn>=0.19
   - seaborn
   - nilearn
+  
+  - pip
   - pip:
     - ramp-workflow
