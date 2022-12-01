@@ -24,7 +24,8 @@ except NameError:
 
 os.makedirs(PATH_DATA, exist_ok=True)
 
-URL_DATA = 'ftp://ftp.cea.fr/pub/unati/people/educhesnay/data/brain_anatomy_schizophrenia_data/sz_public_202211.zip' # PUBLIC DATASET
+URL_DATA = 'ftp://ftp.cea.fr/pub/unati/people/educhesnay/data/\
+brain_anatomy_schizophrenia_data/sz_public_202211.zip'  # PUBLIC DATASET
 
 
 def fetch_data(urls, dst, verbose=1):
