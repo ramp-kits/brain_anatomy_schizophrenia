@@ -12,7 +12,7 @@ import os.path
 import urllib.request
 # import click
 
-#from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 from shutil import unpack_archive  # , copyfile, make_archive, move
 
 try:
