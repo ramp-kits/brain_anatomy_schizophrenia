@@ -55,7 +55,7 @@ def assert_same_deps(deps_pip, deps_conda):
 
 if __name__ == "__main__":
 
-    # Load deps from envrionment.yml
+    # Load deps from environment.yml
     with open("environment.yml") as f:
         conf = yaml.load(f, Loader=yaml.FullLoader)
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     deps_conda = deps_conda[:-1] + deps_conda[-1]["pip"]
 
     deps_pip = []
-    for requirement_file in ["requirements.txt", "extra_libraries.txt"]:
+    for requirement_file in ["requirements.txt"]: #, "extra_libraries.txt"]:
         with open(requirement_file) as f:
             deps_pip += preprocess_pip_deps(f.readlines())
 
