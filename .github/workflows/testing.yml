@@ -71,4 +71,4 @@ jobs:
         python download_data.py
         ramp-test --quick-test
         ramp-test --submission starting_kit --quick-test
-        jupyter nbconvert --execute bovine_embryo_survival_prediction_starting_kit.ipynb --to html --ExecutePreprocessor.kernel_name=python3 
+        jupyter nbconvert --execute brain_anatomy_schizophrenia_starting_kit.ipynb --to html --ExecutePreprocessor.kernel_name=python3 
