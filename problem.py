@@ -23,7 +23,7 @@ workflow = rw.workflows.Estimator()
 
 score_types = [
     rw.score_types.ROCAUC(name='auc'),
-    rw.score_types.Accuracy(name='acc')
+    rw.score_types.BalancedAccuracy(name='bacc')
 ]
 
 
