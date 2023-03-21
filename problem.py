@@ -5,25 +5,52 @@ import numpy as np
 import rampwf as rw
 import os.path
 
+from rampwf.score_types.base import BaseScoreType
+
 from sklearn.model_selection import StratifiedKFold
+
+from sklearn.metrics import balanced_accuracy_score
 
 
 N_FOLDS = 5
-problem_title = 'Predict schizophrenia from \
-    brain grey matter (classification)'
+problem_title = "Predict schizophrenia from \
+    brain grey matter (classification)"
 
-_target_column_name = 'diagnosis'
-_prediction_label_names = ['control', 'schizophrenia']
+_target_column_name = "diagnosis"
+_prediction_label_names = ["control", "schizophrenia"]
 
 # A type (class) which will be used to create wrapper objects for y_pred
-Predictions = rw.prediction_types.make_multiclass(
-    label_names=_prediction_label_names)
+Predictions = rw.prediction_types.make_multiclass(label_names=_prediction_label_names)
 # An object implementing the workflow
 workflow = rw.workflows.Estimator()
 
+# Score types
+
+
+# class balanced_accuracy(BaseScoreType):
+#    is_lower_the_better = False
+#    minimum = 0.0
+#    maximum = 1.0
+#
+#    def __init__(self, name="balanced_accuracy", precision=2):
+#        self.name = name
+#        self.precision = precision
+#
+#    def __call__(self, y_true, y_pred):
+#        score = balanced_accuracy_score(
+#            y_true[:, 1], np.argmax(y_pred, axis=1), adjusted=False
+#        )
+#        return score
+
+
+# score_types = [
+#    rw.score_types.ROCAUC(name="auc"),
+#    rw.score_types.balanced_accuracy(name="bacc"),
+# ]
+
 score_types = [
-    rw.score_types.ROCAUC(name='auc'),
-    rw.score_types.BalancedAccuracy(name='bacc')
+    rw.score_types.ROCAUC(name="auc"),
+    rw.score_types.BalancedAccuracy(name="bacc", adjusted=False),
 ]
 
 
@@ -32,8 +59,8 @@ def get_cv(X, y):
     return cv_train.split(X, y)
 
 
-def _read_data(path, dataset, datatype=['rois', 'vbm']):
-    """ Read data.
+def _read_data(path, dataset, datatype=["rois", "vbm"]):
+    """Read data.
 
     Parameters
     ----------
@@ -54,45 +81,45 @@ def _read_data(path, dataset, datatype=['rois', 'vbm']):
 
     """
     # Read target
-    participants = pd.read_csv(os.path.join(
-        path, 'data', "%s_participants.csv" % dataset))
+    participants = pd.read_csv(
+        os.path.join(path, "data", "%s_participants.csv" % dataset)
+    )
     y_arr = participants[_target_column_name].values
 
     x_arr_l = []
     # Read ROIs
-    if 'rois' in datatype:
-        rois = pd.read_csv(os.path.join(
-            path, 'data', "%s_rois.csv" % dataset))
-        x_rois_arr = rois.loc[:, 'l3thVen_GM_Vol':]
+    if "rois" in datatype:
+        rois = pd.read_csv(os.path.join(path, "data", "%s_rois.csv" % dataset))
+        x_rois_arr = rois.loc[:, "l3thVen_GM_Vol":]
         assert x_rois_arr.shape[1] == 284
         x_arr_l.append(x_rois_arr)
 
     # Read 3d images and mask
-    if 'vbm' in datatype:
-        imgs_arr_zip = np.load(os.path.join(path, 'data',
-                                            "%s_vbm.npz" % dataset))
-        x_img_arr = imgs_arr_zip['imgs_arr'].squeeze()
-        mask_arr = imgs_arr_zip['mask_arr']
+    if "vbm" in datatype:
+        imgs_arr_zip = np.load(os.path.join(path, "data", "%s_vbm.npz" % dataset))
+        x_img_arr = imgs_arr_zip["imgs_arr"].squeeze()
+        mask_arr = imgs_arr_zip["mask_arr"]
         x_img_arr = x_img_arr[:, mask_arr]
         x_arr_l.append(x_img_arr)
 
     x_arr = np.concatenate(x_arr_l, axis=1)
 
-    if datatype == ['rois', 'vbm']:  # TODO: Remove this check
+    if datatype == ["rois", "vbm"]:  # TODO: Remove this check
         assert np.all(x_arr[:, :284] == x_rois_arr)
         assert np.all(x_arr[:, 284:] == x_img_arr)
 
     return x_arr, y_arr
 
 
-def get_train_data(path='.', datatype=['rois', 'vbm']):
-    dataset = 'train'
+def get_train_data(path=".", datatype=["rois", "vbm"]):
+    dataset = "train"
     return _read_data(path, dataset, datatype)
 
 
-def get_test_data(path='.', datatype=['rois', 'vbm']):
-    dataset = 'test'
+def get_test_data(path=".", datatype=["rois", "vbm"]):
+    dataset = "test"
     return _read_data(path, dataset, datatype)
+
 
 # x_arr, y_arr = get_train_data()
 # x_arr, y_arr = get_test_data()
